@@ -45,6 +45,16 @@ docker pull iavilagw/cat-api:latest
 - PostgreSQL 15
 - Docker
 
+## Posibles Mejoras
+
+- Integrar análisis con SonarCloud.
+
+- Ampliar la cobertura de pruebas unitarias y añadir pruebas end-to-end.
+
+- Fortalecer el pipeline CI/CD incorporando escaneo de seguridad orientado a DevSecOps.
+
+- Implementar métricas y monitoreo mediante Prometheus y Grafana.
+
 
 
 
