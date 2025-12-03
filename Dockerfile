@@ -1,6 +1,6 @@
 FROM golang:1.23-alpine AS builder
 
-WORKDIR /build
+WORKDIR /app
 
 RUN apk add --no-cache git
 
@@ -9,19 +9,16 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
-    go build -ldflags="-w -s" \
-    -o cat-service \
-    ./cmd/api
+RUN CGO_ENABLED=0 GOOS=linux go build -o server ./cmd/api
 
 FROM alpine:latest
 
 WORKDIR /app
 
-RUN apk --no-cache add ca-certificates tzdata
+RUN apk --no-cache add ca-certificates
 
-COPY --from=builder /build/cat-service /app/cat-service
+COPY --from=builder /app/server .
 
 EXPOSE 8080
 
-CMD ["/app/cat-service"]
+CMD ["./server"]
