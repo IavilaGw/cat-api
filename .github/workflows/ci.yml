@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [ main, develop ]
   push:
-    branches: [ develop ]
+    branches: [ main, develop ]  
 
 jobs:
   test:
@@ -24,16 +24,16 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: '1.21'
-
+          go-version: '1.23' 
+      
       - name: Cache Go modules
         uses: actions/cache@v3
         with:
@@ -41,13 +41,13 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
-
+      
       - name: Install dependencies
         run: go mod download
-
+      
       - name: Run unit tests
         run: go test -v -race -coverprofile=coverage.out ./tests/unit/...
-
+      
       - name: Run integration tests
         env:
           DB_HOST: localhost
@@ -56,11 +56,11 @@ jobs:
           DB_PASSWORD: postgres
           DB_NAME: catdb_test
           DB_SSLMODE: disable
-        run: go test -v -race -tags=integration ./tests/integration/...
-
+        run: go test -v -race ./tests/integration/...  
+      
       - name: Generate coverage report
         run: go tool cover -func=coverage.out
-
+      
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
@@ -75,12 +75,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: '1.21'
-
+          go-version: '1.23'  # ✅ Actualizado
+      
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v3
         with:
