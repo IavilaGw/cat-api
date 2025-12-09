@@ -16,7 +16,6 @@ import (
 )
 
 var (
-	router       *gin.Engine
 	db           *database.Database
 	testDBConfig = &config.DatabaseConfig{
 		Host:     "localhost",
