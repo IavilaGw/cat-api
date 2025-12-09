@@ -38,7 +38,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          key: ${{ runner.os }}-go-v2-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
       
@@ -79,7 +79,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: '1.23'  # ✅ Actualizado
+          go-version: '1.23'  
       
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v3
