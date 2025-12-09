@@ -2,7 +2,6 @@ package services
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/IavilaGw/cat-api/internal/models"
 	"github.com/IavilaGw/cat-api/internal/repositories"
@@ -49,21 +48,20 @@ func (a *cataasClientAdapter) HealthCheck() error {
 }
 
 func (s *CatService) FetchAndSaveRandomCat() (*models.CatImage, []byte, error) {
-	log.Println("Fetching random cat image...")
 
 	response, err := s.cataasClient.GetRandomCat()
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to fetch image: %w", err)
 	}
 
-	log.Printf("Fetched image: %d bytes, type: %s", response.Size, response.ContentType)
+	
 
 	catImage, err := s.repo.Save(response.Data, response.ContentType)
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to save image: %w", err)
 	}
 
-	log.Printf("Image saved with ID: %d (hash: %s)", catImage.ID, catImage.ImageHash)
+	
 
 	return catImage, response.Data, nil
 }
